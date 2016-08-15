@@ -1,7 +1,7 @@
 require './setup_capybara'
 require 'pry'
 namespace :target do
-  desc 'Creates audence in website target.my.com'
+  desc 'Creates audience in website target.my.com'
   task :fill_in_target, [:login,
                          :password,
                          :audience_name,
