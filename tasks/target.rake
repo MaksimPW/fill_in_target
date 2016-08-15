@@ -17,10 +17,6 @@ namespace :target do
                            args[:box_payer],
                            args[:all_conditions],
                            args[:expand])
-
-    puts b.current_url
-    binding.pry
-
   end
 end
 
