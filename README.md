@@ -20,7 +20,7 @@ rake :fill_in_target[:login,:password,:audience_name,:box_player,:box_payer,:all
 ## Что можно улучшить
 
 * Файл secret.rb с приватными данными в .gitignore
-* Сохрание сессии для rake task
+* Сохранение сессии для rake task
 * DRY
 * Написать тесты для проверки всех параметров(сейчас проблемы с чтением из JS)
 * Написать тесты для проверки данных из API(см. следующий)
