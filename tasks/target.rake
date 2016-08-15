@@ -12,29 +12,11 @@ namespace :target do
 
     b = Capybara.current_session
     b = login_in_target(b, args[:login], args[:password])
-
-    b.visit "https://target.my.com/ads/audience/"
-    b.has_css?('.js-create-audience-form-button')
-    b.click_on 'Создать аудиторию...'
-
-    b.has_css?('.audience-form')
-
-    if args[:all_conditions] == true
-      b.find(:css, '#-box-logical-oper-all').set(true)
-      b.find(:css, '#-box-logical-oper-one').set(false)
-    else
-      b.find(:css, '#-box-logical-oper-all').set(false)
-      b.find(:css, '#-box-logical-oper-one').set(true)
-    end
-
-    b.find(:css, ".audience-form__cross-device__box").set(args[:expand])
-
-    b.find(:css, 'input.js-audience-form-name').set((args[:audience_name]).to_s)
-    b.find(:css, "#box--player").set(args[:box_player])
-    b.find(:css, "#box--payer").set(args[:box_payer])
-
-    b.has_css?('.audience-form__create-button')
-    b.click_on 'Создать аудиторию'
+    b = create_audience(b, args[:audience_name],
+                           args[:box_player],
+                           args[:box_payer],
+                           args[:all_conditions],
+                           args[:expand])
 
     puts b.current_url
     binding.pry
@@ -52,5 +34,30 @@ def login_in_target(b,login,password)
   b.fill_in 'login', with: login.to_s
   b.fill_in 'password', with: password.to_s
   b.click_on 'Войти'
+  b
+end
+
+def create_audience(b,audience_name,box_player,box_payer,all_conditions,expand)
+  b.visit "https://target.my.com/ads/audience/"
+  b.has_css?('.js-create-audience-form-button')
+  b.click_on 'Создать аудиторию...'
+
+  b.has_css?('.audience-form')
+
+  if all_conditions == true
+    b.find(:css, '#-box-logical-oper-all').set(true)
+    b.find(:css, '#-box-logical-oper-one').set(false)
+  else
+    b.find(:css, '#-box-logical-oper-all').set(false)
+    b.find(:css, '#-box-logical-oper-one').set(true)
+  end
+
+  b.find(:css, ".audience-form__cross-device__box").set(expand)
+  b.find(:css, 'input.js-audience-form-name').set(audience_name.to_s)
+  b.find(:css, "#box--player").set(box_player)
+  b.find(:css, "#box--payer").set(box_payer)
+
+  b.has_css?('.audience-form__create-button')
+  b.click_on 'Создать аудиторию'
   b
 end
