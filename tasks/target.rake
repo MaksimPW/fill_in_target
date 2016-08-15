@@ -2,8 +2,13 @@ require './setup_capybara'
 require 'pry'
 namespace :target do
   desc 'Creates audence in website target.my.com'
-  task :fill_in_target, [:login, :password, :audience_name, :box_player, :box_payer] do |t, args|
-    puts 'Hello target!'
+  task :fill_in_target, [:login,
+                         :password,
+                         :audience_name,
+                         :box_player,
+                         :box_payer,
+                         :all_conditions,
+                         :expand] do |t, args|
 
     b = Capybara.current_session
     b = login_in_target(b, args[:login], args[:password])
@@ -13,6 +18,17 @@ namespace :target do
     b.click_on 'Создать аудиторию...'
 
     b.has_css?('.audience-form')
+
+    if args[:all_conditions] == true
+      b.find(:css, '#-box-logical-oper-all').set(true)
+      b.find(:css, '#-box-logical-oper-one').set(false)
+    else
+      b.find(:css, '#-box-logical-oper-all').set(false)
+      b.find(:css, '#-box-logical-oper-one').set(true)
+    end
+
+    b.find(:css, ".audience-form__cross-device__box").set(args[:expand])
+
     b.find(:css, 'input.js-audience-form-name').set((args[:audience_name]).to_s)
     b.find(:css, "#box--player").set(args[:box_player])
     b.find(:css, "#box--payer").set(args[:box_payer])
