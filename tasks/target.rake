@@ -2,7 +2,7 @@ require './setup_capybara'
 require 'pry'
 namespace :target do
   desc 'Creates audence in website target.my.com'
-  task :fill_in_target, [:login, :password, :box_player, :box_payer] do |t, args|
+  task :fill_in_target, [:login, :password, :audience_name, :box_player, :box_payer] do |t, args|
     puts 'Hello target!'
 
     b = Capybara.current_session
@@ -13,7 +13,7 @@ namespace :target do
     b.click_on 'Создать аудиторию...'
 
     b.has_css?('.audience-form')
-
+    b.find(:css, 'input.js-audience-form-name').set((args[:audience_name]).to_s)
     b.find(:css, "#box--player").set(args[:box_player])
     b.find(:css, "#box--payer").set(args[:box_payer])
 
