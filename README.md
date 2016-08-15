@@ -1,6 +1,8 @@
 ## Примеры
 
-Интерфейс: Русский
+Написано для интерфейса на Русском языке.
+Язык интерфейса можно поменять на сайте в настройках.
+
 Для запуска задачи, нужно ввести:
 ```
 rake :fill_in_target[:login,:password,:audience_name,:box_player,:box_payer,:all_conditions,:expand]
